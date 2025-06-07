@@ -8,67 +8,76 @@ public class KnapsackLimitado {
 	static Integer memo[][];
 	
 	public static void main(String[] args) {
-		List<Objeto> objetos = Arrays.asList(
-			    new Objeto("Livro", 3, 8),
-			    new Objeto("Notebook", 4, 10),
-			    new Objeto("Câmera", 2, 5),
-			    new Objeto("Garrafa Térmica", 1, 3),
-			    new Objeto("Headset", 2, 4),
-			    new Objeto("Tablet", 3, 6)
+		List<Objeto2> objetos = Arrays.asList(
+			    new Objeto2("Livro", 3, 8),
+			    new Objeto2("Notebook", 4, 10),
+			    new Objeto2("Câmera", 2, 5),
+			    new Objeto2("Garrafa Térmica", 1, 3),
+			    new Objeto2("Headset", 2, 4),
+			    new Objeto2("Tablet", 3, 6)
 		);
 		
 		int capacidade = 10;
-		memo = new Integer[objetos.size()+1][capacidade+1];
-		
-		System.out.println("Valor total: R$"+ mochila(objetos,capacidade,0,0)+"\n");
-		itensMochila(objetos,capacidade);
+		System.out.println("Valor total: R$"+ mochila(objetos,capacidade)+"\n");
 	}
 	
-	public static int mochila(List<Objeto> objetos, int capacidade, int i, int valor) {
-		if(capacidade == 0 || i >= objetos.size()) return 0;
+	public static int mochila(List<Objeto2> objetos, int capacidade) {
+		int[][] dp = new int[objetos.size()+1][capacidade+1];
 		
-		Objeto obj = objetos.get(i);
-		
-		if(memo[i][capacidade] != null) {
-			return memo[i][capacidade];
+		for(int i = 1; i <= objetos.size();i++) {
+			Objeto2 cano = objetos.get(i-1);
+			
+			for(int j = 0; j <= capacidade;j++) {
+				
+				if(cano.getPeso() <= j) {
+					dp[i][j] = Math.max(dp[i-1][j], cano.getPreco() + dp[i-1][j - cano.getPeso()]);
+				}
+				
+			}
 		}
 		
-		int pegar = mochila(objetos,capacidade,i+1,valor);
 		
-		int notPegar = 0;
-		
-		if(obj.getPeso() <= capacidade) {
-			notPegar = obj.getPreco() + mochila(objetos,capacidade-obj.getPeso(),i+1,valor);
-		}
-		
-		memo[i][capacidade] = Math.max(pegar, notPegar);
-		
-		return memo[i][capacidade];
+		dpMatriz(dp);
+		itensMochila(objetos, capacidade, dp);
+		return dp[objetos.size()][capacidade];
 	}
 	
-	public static void itensMochila(List<Objeto> objetos, int capacidade) {
+	private static void dpMatriz(int[][] dp) {
+
+		for(int i = 0; i < dp.length;i++) {
+			for(int j = 0; j < dp[0].length;j++) {
+				System.out.print(dp[i][j]+" ");
+			}
+			
+			System.out.println();
+		}
+		
+	}
+
+	public static void itensMochila(List<Objeto2> objetos, int capacidade, int[][] dp) {
 		
 		int i = 0;
-		while (i++ < objetos.size()-1 && capacidade > 0) {
-			if (memo[i][capacidade] != memo[i + 1][capacidade]) {
+		while (i < objetos.size()-1 && capacidade > 0) {
+			
+			if (dp[i][capacidade] != dp[i + 1][capacidade]) {
 		        System.out.println(objetos.get(i));
 		        capacidade -= objetos.get(i).getPeso();
 		    }
+			
+			i++;
 		}
-		
-		
 	}
 	
 }
 
-class Objeto {
+class Objeto2 {
 	
 	private String nome;
 	private int peso;
 	private int preco;
 	
 	
-	public Objeto(String nome, int peso, int preco) {
+	public Objeto2(String nome, int peso, int preco) {
 		setNome(nome);
 		setPeso(peso);
 		setPreco(preco);
