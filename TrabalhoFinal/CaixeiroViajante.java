@@ -25,10 +25,12 @@ public class CaixeiroViajante {
 	}
 	
 	public static List<Cidade> caixeiroViajante(List<Cidade> cidades) {
-
+		
 		List<List<Cidade>> conjuntos = new ArrayList<List<Cidade>>();
-		possivelSolucoes(cidades, new ArrayList<Cidade>(),conjuntos, 0);
+		possivelSolucoes(cidades, new ArrayList<Cidade>(),conjuntos); //N!
 		List<Cidade> resultado = null;
+		
+		System.out.println("Quantidade de dados: "+conjuntos.size());
 		
 		int menor = -1;
 		
@@ -73,14 +75,14 @@ public class CaixeiroViajante {
 		return resultado;
 	}
 
-	private static void possivelSolucoes(List<Cidade> cidades, ArrayList<Cidade> permutacoes, List<List<Cidade>> conjuntos,int index) {	
+	private static void possivelSolucoes(List<Cidade> cidades, ArrayList<Cidade> permutacoes, List<List<Cidade>> conjuntos) {	
 		
 		if(permutacoes.size() == cidades.size()) {
 			conjuntos.add(new ArrayList<Cidade>(permutacoes));
 			return;
 		}
 		
-		for(int i = index; i < cidades.size();i++) {
+		for(int i = 0; i < cidades.size();i++) {
 			
 			Cidade cidade = cidades.get(i);
 			
@@ -89,7 +91,7 @@ public class CaixeiroViajante {
 			}
 			
 			permutacoes.add(cidades.get(i));
-			possivelSolucoes(cidades, permutacoes,conjuntos, index);
+			possivelSolucoes(cidades, permutacoes,conjuntos);
 			permutacoes.remove(permutacoes.size()-1);
 		}
 	}
