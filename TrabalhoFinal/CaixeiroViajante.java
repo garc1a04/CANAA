@@ -1,4 +1,4 @@
-package Paradigmas;
+package TrabalhoFinal;
 
 import java.util.ArrayList;
 import java.util.Arrays;

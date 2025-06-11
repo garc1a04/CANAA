@@ -1,4 +1,4 @@
-package Paradigmas.Gulosos;
+package TrabalhoFinal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,15 +24,18 @@ public class CasaDePraia {
 		
 		arquivos.sort(Comparator.comparingDouble(PDF::getRazao).reversed());
 		
-		
-		for(int i = 0; i < arquivos.size();i++){
-			PDF obj = arquivos.get(i);
+		for(int i = 0; i < arquivos.size();i++) {
+			PDF obj = arquivos.get(i); 
 			
+			System.out.println(obj.getNome() + " Peso: " + obj.getPeso());
 			
 			if(obj.getPeso() > capacidade) {
+				System.out.println("Não entra");
 				continue;
 			}
 			
+			
+			System.out.println("entra");
 			capacidade -= obj.getPeso();
 			pendrive.add(obj);
 		}

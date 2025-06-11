@@ -1,4 +1,4 @@
-package Paradigmas.PD;
+package TrabalhoFinal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,13 +31,21 @@ public class KnapsackLimitado {
 				
 				if(cano.getPeso() <= j) {
 					dp[i][j] = Math.max(dp[i-1][j], cano.getPreco() + dp[i-1][j - cano.getPeso()]);
+					
+					dpMatriz(dp);
+					System.out.println();
+					
+					if (dp[i-1][j] != dp[i][j]) {
+						System.out.print("Escolha: ");
+						System.out.println(objetos.get(i-1)+"\n");						
+					}
 				}
 				
 			}
 		}
 		
 		
-		dpMatriz(dp);
+		//dpMatriz(dp);
 		itensMochila(objetos, capacidade, dp);
 		return dp[objetos.size()][capacidade];
 	}

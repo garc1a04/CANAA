@@ -1,4 +1,4 @@
-package Paradigmas.PD;
+package TrabalhoFinal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,17 +25,22 @@ public class KnapsackIlimitado {
 		int[][] dp = new int[objetos.size()+1][capacidade+1];
 		
 		for(int i = 1; i <= objetos.size();i++) {
-			Objeto2 cano = objetos.get(i-1);
+			Objeto2 obj = objetos.get(i-1);
 			
 			for(int j = 0; j <= capacidade;j++) {
 				
-				if(cano.getPeso() <= j) {
-					dp[i][j] = Math.max(dp[i-1][j], cano.getPreco() + dp[i][j - cano.getPeso()]);
+				if(obj.getPeso() <= j) {
+					dp[i][j] = Math.max(dp[i-1][j], obj.getPreco() + dp[i][j - obj.getPeso()]);
+					
+					 if (dp[i][j] == obj.getPreco() + dp[i][j - obj.getPeso()]) {
+						
+						System.out.print("Escolha: ");
+						System.out.println(objetos.get(i-1)+"\n");				
+				      }
 				}
 				
 			}
 		}
-		
 		
 		dpMatriz(dp);
 		itensMochila(objetos, capacidade, dp);
@@ -57,7 +62,8 @@ public class KnapsackIlimitado {
 	public static void itensMochila(List<Objeto2> objetos, int capacidade, int[][] dp) {
 		 	int i = objetos.size();
 		    int j = capacidade;
-
+		    
+		    System.out.println();
 		    while (j > 0 && i > 0) {
 		        Objeto2 obj = objetos.get(i - 1);
 		        
@@ -66,7 +72,6 @@ public class KnapsackIlimitado {
 		            j -= obj.getPeso();
 		            continue;
 		        }
-		        
 		        
 		        i--;
 		    }

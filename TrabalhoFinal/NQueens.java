@@ -1,4 +1,4 @@
-package Paradigmas.Backtracking;
+package TrabalhoFinal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 public class NQueens {
+	
 	public static void main(String[] args) {
-		solveNQueens(8);
+		solveNQueens(4);
 	}
 	
 	public static void solveNQueens(int n) {
@@ -18,25 +19,24 @@ public class NQueens {
     	
     	backQueens(result,tabul,new HashSet<Integer>(),new HashSet<Integer>(), new HashSet<Integer>(),0,n);
     	
-    	
-		for(String linha : result.get(0)) {
-			System.out.println(linha);
+    	System.out.println("Solução: ");
+		for(String l : tabul) {
+			System.out.println(l);
 		}
-		
-		System.out.println();
     	
 		return;
     }
 
-	private static void backQueens(List<List<String>> result, ArrayList<String> tabul, Set<Integer> rainhasColunas,Set<Integer> diagPrinci,Set<Integer> diagSegund, int linha, int tam) {
-
+	private static void backQueens(List<List<String>> result, ArrayList<String> tabul, Set<Integer> rainhasColunas,Set<Integer> diagPrinci,Set<Integer> diagSegund,
+									int linha, int tam) {
+		
 		if(linha == tam) {
 			result.add(new ArrayList<String>(tabul));
 			return;
 		}
 		
-		
 		for(int i = 0; i < tam ;i++) {
+			if(result.size() == 1) return;
 			
 			if(rainhasColunas.contains(i) || diagPrinci.contains(linha-i) || diagSegund.contains(linha+i)) {
 				continue;
@@ -48,14 +48,27 @@ public class NQueens {
 			
 			tabul.add(linhaTabul(i,tam));
 			
+			System.out.println("Adicionando a linha: "+ linha);
+			for(String l : tabul) {
+				System.out.println(l);
+			}
+			System.out.println();
+			
 			backQueens(result,tabul,rainhasColunas,diagPrinci, diagSegund, linha+1,tam);
+			if(result.size() == 1) return;
+			
 			
 			tabul.remove(tabul.size()-1);
 			rainhasColunas.remove(i);
 			diagPrinci.remove(linha-i);
-			diagSegund.remove(linha+i);		
+			diagSegund.remove(linha+i);
+			
+			System.out.println("Removendo a linha: " + linha);
+			for(String l : tabul) {
+				System.out.println(l);
+			}
+			System.out.println();
 		}
-		
 	}
 
 	private static String linhaTabul(int localRainha, int tam) {
